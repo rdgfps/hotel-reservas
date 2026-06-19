@@ -1,0 +1,15 @@
+meta {
+  name: Listar Clientes
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/clientes
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000
+}

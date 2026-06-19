@@ -1,0 +1,23 @@
+meta {
+  name: Criar Usuario
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/usuarios
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "testando3",
+    "email": "testando3@hotel.com",
+    "senha": "123456"
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000
+}

@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  id        Int       @id @default(autoincrement())
+  nome      String    @db.VarChar(255)
+  email     String    @unique @db.VarChar(255)
+  telefone  String?   @db.VarChar(20)
+  criado_em DateTime  @default(now()) @db.Timestamp(6)
+  reservas  Reserva[]
+
+  @@map("clientes")
+}
+
+model Quarto {
+  id        Int       @id @default(autoincrement())
+  numero    Int       @unique
+  tipo      String    @db.VarChar(50)
+  criado_em DateTime  @default(now()) @db.Timestamp(6)
+  reservas  Reserva[]
+
+  @@map("quartos")
+}
+
+model Reserva {
+  id           Int      @id @default(autoincrement())
+  cliente_id   Int
+  quarto_id    Int
+  data_entrada DateTime @db.Date
+  data_saida   DateTime @db.Date
+  status       String   @default("NPG") @db.Char(3)
+  criado_em    DateTime @default(now()) @db.Timestamp(6)
+  cliente      Cliente  @relation(fields: [cliente_id], references: [id], onDelete: Restrict)
+  quarto       Quarto   @relation(fields: [quarto_id], references: [id], onDelete: Restrict)
+
+  @@index([cliente_id], map: "idx_reservas_cliente")
+  @@index([quarto_id], map: "idx_reservas_quarto")
+  @@index([quarto_id, data_entrada, data_saida], map: "idx_reservas_periodo")
+  @@map("reservas")
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nome      String   @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
+  senha     String   @db.VarChar(255)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  logs      Log[]
+
+  @@map("usuarios")
+}
+
+model Log {
+  id          Int      @id @default(autoincrement())
+  descricao   String   @db.VarChar(255)
+  complemento String?
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
+  usuarioId   Int
+  usuario     Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Restrict)
+
+  @@index([usuarioId], map: "idx_logs_usuario")
+  @@map("logs")
+}

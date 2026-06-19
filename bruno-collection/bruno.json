@@ -1,0 +1,15 @@
+{
+  "version": "1",
+  "name": "Hotel Reservas API",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ],
+  "size": 0.002696990966796875,
+  "filesCount": 17,
+  "presets": {
+    "requestType": "http",
+    "requestUrl": "http://localhost:3000"
+  }
+}

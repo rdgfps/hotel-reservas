@@ -1,0 +1,22 @@
+meta {
+  name: Atualizar Quarto
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/quartos/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "numero": 101,
+    "tipo": "Suite"
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000
+}

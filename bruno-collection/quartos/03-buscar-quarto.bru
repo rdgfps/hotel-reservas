@@ -1,0 +1,15 @@
+meta {
+  name: Buscar Quarto por ID
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/quartos/1
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000
+}

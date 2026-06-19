@@ -1,0 +1,22 @@
+meta {
+  name: Criar Quarto
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/quartos
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "numero": 101,
+    "tipo": "Simples"
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000
+}

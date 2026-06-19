@@ -1,0 +1,15 @@
+meta {
+  name: Listar Quartos
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/quartos
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000
+}

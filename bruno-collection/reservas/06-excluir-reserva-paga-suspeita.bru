@@ -1,0 +1,15 @@
+meta {
+  name: Excluir Reserva Paga Suspeita
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{baseUrl}}/reservas/1?usuarioId=1
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000
+}

@@ -1,0 +1,25 @@
+meta {
+  name: Criar Reserva (com Transação)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/reservas
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "cliente_id": 1,
+    "quarto_id": 1,
+    "data_entrada": "2025-07-10",
+    "data_saida": "2025-07-15",
+    "status": "NPG"
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000
+}
