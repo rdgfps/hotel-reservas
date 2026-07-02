@@ -1,0 +1,22 @@
+meta {
+  name: Alterar Senha Recuperacao
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/auth/alterar-senha-recuperacao
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "codigo": "cole-o-codigo-recebido",
+    "novaSenha": "Nova@1234"
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000
+}

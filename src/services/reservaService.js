@@ -21,7 +21,13 @@ const reservaService = {
     return reserva;
   },
 
-  async criar(dados) {
+  async criar(dados, usuarioId) {
+    if (!usuarioId) {
+      const erro = new Error('Usuario autenticado obrigatorio para criar reserva.');
+      erro.status = 401;
+      throw erro;
+    }
+
     const { cliente_id, quarto_id, data_entrada, data_saida, status } = validar(reservaSchema, dados);
 
     return await db.$transaction(async (tx) => {
@@ -54,7 +60,7 @@ const reservaService = {
       }
 
       return await Reserva.create(
-        { cliente_id, quarto_id, data_entrada, data_saida, status },
+        { cliente_id, quarto_id, data_entrada, data_saida, status, usuarioId },
         tx
       );
     });

@@ -1,17 +1,24 @@
 meta {
-  name: Pesquisar Logs por Usuario
+  name: Alterar Senha Logado
   type: http
-  seq: 2
+  seq: 5
 }
 
-get {
-  url: {{baseUrl}}/logs/usuario/1
+post {
+  url: {{baseUrl}}/auth/alterar-senha
   body: json
   auth: bearer
 }
 
 auth:bearer {
   token: {{token}}
+}
+
+body:json {
+  {
+    "senhaAtual": "Admin@123",
+    "novaSenha": "Admin@1234"
+  }
 }
 
 vars:pre-request {

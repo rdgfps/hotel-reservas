@@ -1,26 +1,43 @@
 require('dotenv').config();
 const { PrismaClient } = require('@prisma/client');
+const { criarHashSenha } = require('../src/utils/password');
 
 const prisma = new PrismaClient();
 
 async function main() {
   await prisma.usuario.upsert({
     where: { email: 'admin@hotel.com' },
-    update: {},
+    update: {
+      senha: criarHashSenha('Admin@123'),
+      nivel: 3,
+      status: 'ATIVO',
+      bloqueado: false,
+      tentativasInvalidas: 0,
+    },
     create: {
       nome: 'Administrador',
       email: 'admin@hotel.com',
-      senha: '123456',
+      senha: criarHashSenha('Admin@123'),
+      nivel: 3,
+      status: 'ATIVO',
     },
   });
 
   await prisma.usuario.upsert({
     where: { email: 'recepcao@hotel.com' },
-    update: {},
+    update: {
+      senha: criarHashSenha('Recepcao@123'),
+      nivel: 2,
+      status: 'ATIVO',
+      bloqueado: false,
+      tentativasInvalidas: 0,
+    },
     create: {
       nome: 'Recepcao',
       email: 'recepcao@hotel.com',
-      senha: '123456',
+      senha: criarHashSenha('Recepcao@123'),
+      nivel: 2,
+      status: 'ATIVO',
     },
   });
 

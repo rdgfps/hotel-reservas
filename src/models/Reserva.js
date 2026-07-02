@@ -17,13 +17,16 @@ function formatarReserva(reserva) {
     cliente_email: reserva.cliente?.email,
     quarto_numero: reserva.quarto?.numero,
     quarto_tipo: reserva.quarto?.tipo,
+    usuarioId: reserva.usuarioId,
+    usuario_nome: reserva.usuario?.nome,
+    usuario_email: reserva.usuario?.email,
   };
 }
 
 const Reserva = {
   async findAll() {
     const reservas = await db.reserva.findMany({
-      include: { cliente: true, quarto: true },
+      include: { cliente: true, quarto: true, usuario: true },
       orderBy: { id: 'asc' },
     });
 
@@ -33,7 +36,7 @@ const Reserva = {
   async findById(id, client = db) {
     const reserva = await client.reserva.findUnique({
       where: { id: Number(id) },
-      include: { cliente: true, quarto: true },
+      include: { cliente: true, quarto: true, usuario: true },
     });
 
     return formatarReserva(reserva);
@@ -42,7 +45,7 @@ const Reserva = {
   async findByClienteId(clienteId) {
     const reservas = await db.reserva.findMany({
       where: { cliente_id: Number(clienteId) },
-      include: { quarto: true },
+      include: { quarto: true, usuario: true },
       orderBy: { data_entrada: 'asc' },
     });
 
@@ -66,11 +69,12 @@ const Reserva = {
     });
   },
 
-  async create({ cliente_id, quarto_id, data_entrada, data_saida, status }, client = db) {
+  async create({ cliente_id, quarto_id, data_entrada, data_saida, status, usuarioId }, client = db) {
     return await client.reserva.create({
       data: {
         cliente_id: Number(cliente_id),
         quarto_id: Number(quarto_id),
+        usuarioId: Number(usuarioId),
         data_entrada: new Date(data_entrada),
         data_saida: new Date(data_saida),
         status,

@@ -3,6 +3,38 @@ const Cliente = require('../models/Cliente');
 const Reserva = require('../models/Reserva');
 
 const emailService = {
+  async enviarAtivacao(email, codigo) {
+    const baseUrl = process.env.APP_URL || `http://localhost:${process.env.PORT || 3000}`;
+    const link = `${baseUrl}/usuarios/ativar/${codigo}`;
+
+    await transporter.sendMail({
+      from: process.env.MAIL_FROM,
+      to: email,
+      subject: 'Ativacao de conta',
+      html: `
+        <div style="font-family: Arial, sans-serif;">
+          <p>Acesse o link abaixo para ativar sua conta:</p>
+          <p><a href="${link}">${link}</a></p>
+        </div>
+      `,
+    });
+  },
+
+  async enviarCodigoRecuperacao(email, codigo) {
+    await transporter.sendMail({
+      from: process.env.MAIL_FROM,
+      to: email,
+      subject: 'Recuperacao de senha',
+      html: `
+        <div style="font-family: Arial, sans-serif;">
+          <p>Use este codigo para alterar sua senha:</p>
+          <h2>${codigo}</h2>
+          <p>O codigo vale por 30 minutos.</p>
+        </div>
+      `,
+    });
+  },
+
   async enviarRelatorio(clienteId) {
     const cliente = await Cliente.findById(clienteId);
     if (!cliente) {

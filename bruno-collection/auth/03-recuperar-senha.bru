@@ -1,19 +1,18 @@
 meta {
-  name: Login
+  name: Recuperar Senha
   type: http
-  seq: 1
+  seq: 3
 }
 
 post {
-  url: {{baseUrl}}/auth/login
+  url: {{baseUrl}}/auth/recuperar-senha
   body: json
   auth: none
 }
 
 body:json {
   {
-    "email": "admin@hotel.com",
-    "senha": "Admin@123"
+    "email": "admin@hotel.com"
   }
 }
 

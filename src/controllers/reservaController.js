@@ -21,7 +21,7 @@ const reservaController = {
 
   async criar(req, res, next) {
     try {
-      const reserva = await reservaService.criar(req.body);
+      const reserva = await reservaService.criar(req.body, req.usuario?.id);
       res.status(201).json({ success: true, data: reserva });
     } catch (err) {
       next(err);
@@ -39,7 +39,7 @@ const reservaController = {
 
   async excluir(req, res, next) {
     try {
-      const usuarioId = req.query.usuarioId || req.body.usuarioId;
+      const usuarioId = req.usuario?.id || req.query.usuarioId || req.body.usuarioId;
       const reserva = await reservaService.excluir(req.params.id, usuarioId);
       res.json({ success: true, message: 'Reserva excluida.', data: reserva });
     } catch (err) {

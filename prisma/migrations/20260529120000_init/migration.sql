@@ -42,7 +42,7 @@ ALTER TABLE "reservas" ADD CONSTRAINT "reservas_quarto_id_fkey"
 FOREIGN KEY ("quarto_id") REFERENCES "quartos"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 ALTER TABLE "quartos" ADD CONSTRAINT "quartos_tipo_check"
-CHECK ("tipo" IN ('Simples', 'Duplo', 'Suite'));
+CHECK ("tipo" IN ('Simples', 'Duplo', 'SuÃ­te'));
 
 ALTER TABLE "reservas" ADD CONSTRAINT "reservas_status_check"
 CHECK ("status" IN ('PG', 'NPG'));

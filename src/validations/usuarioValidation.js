@@ -1,4 +1,5 @@
 const { z } = require('zod');
+const { senhaForte } = require('../utils/password');
 
 const usuarioSchema = z.object({
   nome: z
@@ -12,7 +13,16 @@ const usuarioSchema = z.object({
     .toLowerCase(),
   senha: z
     .string({ error: 'O campo senha e obrigatorio.' })
-    .min(4, 'A senha deve ter pelo menos 4 caracteres.'),
+    .refine(
+      senhaForte,
+      'A senha deve ter no minimo 8 caracteres, letra maiuscula, letra minuscula, numero e simbolo.'
+    ),
+  nivel: z.coerce
+    .number()
+    .int('O nivel deve ser um numero inteiro.')
+    .min(1, 'O nivel deve ser entre 1 e 3.')
+    .max(3, 'O nivel deve ser entre 1 e 3.')
+    .optional(),
 });
 
 module.exports = { usuarioSchema };

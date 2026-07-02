@@ -32,26 +32,38 @@ model Reserva {
   id           Int      @id @default(autoincrement())
   cliente_id   Int
   quarto_id    Int
+  usuarioId    Int?
   data_entrada DateTime @db.Date
   data_saida   DateTime @db.Date
   status       String   @default("NPG") @db.Char(3)
   criado_em    DateTime @default(now()) @db.Timestamp(6)
   cliente      Cliente  @relation(fields: [cliente_id], references: [id], onDelete: Restrict)
   quarto       Quarto   @relation(fields: [quarto_id], references: [id], onDelete: Restrict)
+  usuario      Usuario? @relation(fields: [usuarioId], references: [id], onDelete: SetNull)
 
   @@index([cliente_id], map: "idx_reservas_cliente")
   @@index([quarto_id], map: "idx_reservas_quarto")
+  @@index([usuarioId], map: "idx_reservas_usuario")
   @@index([quarto_id, data_entrada, data_saida], map: "idx_reservas_periodo")
   @@map("reservas")
 }
 
 model Usuario {
-  id        Int      @id @default(autoincrement())
-  nome      String   @db.VarChar(255)
-  email     String   @unique @db.VarChar(255)
-  senha     String   @db.VarChar(255)
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  logs      Log[]
+  id                  Int       @id @default(autoincrement())
+  nome                String    @db.VarChar(255)
+  email               String    @unique @db.VarChar(255)
+  senha               String    @db.VarChar(255)
+  nivel               Int       @default(1)
+  status              String    @default("INATIVO") @db.VarChar(20)
+  codigoAtivacao      String?   @db.VarChar(80)
+  tentativasInvalidas Int       @default(0)
+  bloqueado           Boolean   @default(false)
+  ultimoLogin         DateTime? @db.Timestamp(6)
+  codigoRecuperacao   String?   @db.VarChar(80)
+  recuperacaoExpiraEm DateTime? @db.Timestamp(6)
+  createdAt           DateTime  @default(now()) @db.Timestamp(6)
+  logs                Log[]
+  reservas            Reserva[]
 
   @@map("usuarios")
 }

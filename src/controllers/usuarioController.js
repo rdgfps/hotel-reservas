@@ -18,6 +18,15 @@ const usuarioController = {
       next(err);
     }
   },
+
+  async ativar(req, res, next) {
+    try {
+      const usuario = await usuarioService.ativar(req.params.codigo);
+      res.json({ success: true, data: usuario });
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 module.exports = usuarioController;

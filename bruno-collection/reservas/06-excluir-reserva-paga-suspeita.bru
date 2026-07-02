@@ -5,11 +5,16 @@ meta {
 }
 
 delete {
-  url: {{baseUrl}}/reservas/1?usuarioId=1
+  url: {{baseUrl}}/reservas/1
   body: none
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
 }
 
 vars:pre-request {
   baseUrl: http://localhost:3000
+  token: cole-o-token-do-login
 }
